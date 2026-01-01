@@ -8,8 +8,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 17, 34, 0.7)), 
-                        url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 17, 34, 0.7)), url('bg.png') no-repeat center center fixed;
             background-size: cover; 
             color: white;
             text-align: center;
@@ -110,11 +109,15 @@
         function startFireworks() {
             setInterval(() => {
                 confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { x: Math.random(), y: Math.random() * 0.5 }
+                    particleCount: 150,
+                    angle: 90,
+                    spread: 120,
+                    startVelocity: 45,
+                    gravity: 0.8,
+                    ticks: 300,
+                    origin: { x: Math.random(), y: 0 }
                 });
-            }, 1000); // Meledak setiap 1 detik
+            }, 1000);
         }
 
         // Petasan tambahan saat di klik
