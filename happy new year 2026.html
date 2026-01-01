@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Selamat Tahun Baru 2026</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 17, 34, 0.7)), 
+                        url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover; 
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #countdown {
+            font-size: 5em;
+            margin: 20px;
+            text-shadow: 0 0 20px #fff;
+        }
+        #message {
+            display: none;
+            font-size: 2em;
+            text-shadow: 0 0 20px #ffd700;
+        }
+        #instructions {
+            font-size: 0.4em;
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        footer {
+            position: absolute;
+            bottom: 10px;
+            font-size: 0.5em;
+            opacity: 0.6;
+        }
+    </style>
+    <!-- Library untuk petasan -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div id="countdown">Menghitung...</div>
+    <div id="message">Selamat Tahun Baru 2026! 🎆</div>
+    <div id="instructions">Klik di mana saja untuk tambah petasan!</div>
+    <canvas id="fireworksCanvas"></canvas>
+    <footer>Dibuat oleh Roby Sunjaya</footer>
+
+    <script>
+        const countdownElement = document.getElementById('countdown');
+        const messageElement = document.getElementById('message');
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // ukuran canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Tanggal target: 1 Januari 2026 pukul 00:00 
+        const targetDate = new Date('2026-01-01T15:46:00').getTime();
+
+        // Fungsi untuk update countdown
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance <= 0) {
+                // Jika sudah lewat, tampilkan pesan dan mulai petasan
+                countdownElement.style.display = 'none';
+                messageElement.style.display = 'block';
+                startFireworks();
+                return;
+            }
+
+            // Hitung hari, jam, menit, detik
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Tampilkan countdown
+            countdownElement.textContent = `${days}h ${hours}j ${minutes}m ${seconds}d`;
+
+            // Update setiap detik
+            setTimeout(updateCountdown, 1000);
+        }
+
+        // Mulai countdown
+        updateCountdown();
+
+        // Fungsi petasan otomatis 
+        function startFireworks() {
+            setInterval(() => {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { x: Math.random(), y: Math.random() * 0.5 }
+                });
+            }, 1000); // Meledak setiap 1 detik
+        }
+
+        // Petasan tambahan saat di klik
+        document.addEventListener('click', (e) => {
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight },
+                colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff']
+            });
+        });
+    </script>
+</body>
+</html>
